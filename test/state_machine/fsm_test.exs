@@ -12,7 +12,14 @@ defmodule StateMachine.FSMTest do
   test "foo", %{statem: statem} do
     IO.puts(:test_begin)
 
+    # Let's monitor the state maching
+    Process.monitor(statem)
+
     FSM.do_thing(statem, :bar)
+
+    receive do
+      msg -> IO.inspect(msg)
+    end
 
     IO.puts(:test_end)
   end
